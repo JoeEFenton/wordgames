@@ -9,38 +9,29 @@ class Wordfreq
     'were', 'will', 'with']
 
     def initialize(filename) #bringing in the file
-     h = Hash.new  #creating a new hash
-     files = File.open(filename) # opening the file
-       files.each_line do { |line| # split up into lines
-         words = line.split
-         words.each { |w|
-           if h.has_key?(w)
-             h[w] = h[w] + 1
-             h[w] = 1
-         }
-       }
+     files = File.read(filename).downcase # opening the file
+     files.gsub!(rubular, '')
+     STOP_WORDS.each do |word|
+       files.gsub!(/\b(?:#{word})\b/, "")
      end
+     files
    end
 
   def frequency(word)
-    word_count = {}
-
-File.open(filename) do |f|
-  f.each_line do |line|
-    words = line.split(' ').each do |word|
-      word_count[word] += 1 if word_count.has_key? word
-      word_count[word] = 1 if not word_count.has_key? word
-    end
-  end
+    word_count = @files.scan(regex).count
 end
 
 puts word_count
   end
 
   def frequencies
+    h = Hash.new  #creating a new hash
+    numbnuts = @file.split(' ')
+    numbnuts.each do |word|
+      h[word] = frequency(word)
 
   end
-
+h
   def top_words(number)
   end
 
