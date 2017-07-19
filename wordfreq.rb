@@ -18,7 +18,7 @@ class Wordfreq
    end
 
   def frequency(word)
-    word_count = @files.scan(regex).count
+    word_count = @files.scan(/\b(?:#{word})\b/).count
 end
 
 puts word_count
@@ -33,9 +33,12 @@ puts word_count
   end
 h
   def top_words(number)
+    top = frequencies.sort_by{|word, count| count}.reverse
+    top.take(number)
   end
 
   def print_report
+    top_words(10)
   end
 end
 
